@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main() {
+    int n, m, a[10][10], mx[10][10], nd[10][10], t[10], av[10], wk[10], f[10] = {0}, c = 0;
+    scanf("%d%d", &n, &m);
+    for (int i = 0; i < n; i++) for (int j = 0; j < m; j++) scanf("%d", &mx[i][j]);
+    for (int i = 0; i < n; i++) for (int j = 0; j < m; j++) scanf("%d", &a[i][j]);
+    for (int i = 0; i < m; i++) { scanf("%d", &t[i]); av[i] = t[i]; for (int j = 0; j < n; j++) av[i] -= a[j][i]; wk[i] = av[i]; }
+    for (int i = 0; i < n; i++) for (int j = 0; j < m; j++) nd[i][j] = mx[i][j] - a[i][j];
+
+    while (c < n) {
+        int ok = 0;
+        for (int i = 0; i < n; i++) if (!f[i]) {
+            int can = 1;
+            for (int j = 0; j < m; j++) if (nd[i][j] > wk[j]) can = 0;
+            if (can) { for (int j = 0; j < m; j++) wk[j] += a[i][j]; f[i] = 1; c++; ok = 1; printf("P%d ", i); }
+        }
+        if (!ok) return printf("\nNot safe.\n"), 0;
+    }
+    printf("\nSafe.\n");
+}
