@@ -1,21 +1,61 @@
 #include <stdio.h>
+int main(){
+    int max[10][10],alloc[10][10],need[10][10];
+    int work[10],total[10];
+    int finish[10]={0};
+    int i,j,r,c,cnt=0;
+    printf("Enter number of processes and resources: ");
+    scanf("%d %d", &r, &c);
 
-int main() {
-    int n, m, a[10][10], mx[10][10], nd[10][10], t[10], av[10], wk[10], f[10] = {0}, c = 0;
-    scanf("%d%d", &n, &m);
-    for (int i = 0; i < n; i++) for (int j = 0; j < m; j++) scanf("%d", &mx[i][j]);
-    for (int i = 0; i < n; i++) for (int j = 0; j < m; j++) scanf("%d", &a[i][j]);
-    for (int i = 0; i < m; i++) { scanf("%d", &t[i]); av[i] = t[i]; for (int j = 0; j < n; j++) av[i] -= a[j][i]; wk[i] = av[i]; }
-    for (int i = 0; i < n; i++) for (int j = 0; j < m; j++) nd[i][j] = mx[i][j] - a[i][j];
+    printf("Enter the Max matrix:\n");
+    for (i = 0; i < r; i++)
+        for (j = 0; j < c; j++)
+            scanf("%d", &max[i][j]);
 
-    while (c < n) {
-        int ok = 0;
-        for (int i = 0; i < n; i++) if (!f[i]) {
-            int can = 1;
-            for (int j = 0; j < m; j++) if (nd[i][j] > wk[j]) can = 0;
-            if (can) { for (int j = 0; j < m; j++) wk[j] += a[i][j]; f[i] = 1; c++; ok = 1; printf("P%d ", i); }
-        }
-        if (!ok) return printf("\nNot safe.\n"), 0;
+    printf("Enter the Allocation matrix:\n");
+    for (i = 0; i < r; i++)
+        for (j = 0; j < c; j++)
+            scanf("%d", &alloc[i][j]);
+
+    printf("Enter the total resources:\n");
+    for (i = 0; i < c; i++)
+        scanf("%d", &total[i]);
+        
+    for(int i = 0;i<c;i++){
+        int sum = 0;
+        for(int j = 0; j< r; j++)
+            sum += alloc[j][i];
+        work[i]=total[i]-sum;
     }
-    printf("\nSafe.\n");
+    for(int  i =0;i<r;i++)
+        for(int j=0;j<c;j++)
+            need[i][j]=max[i][j]-alloc[i][j];
+            
+    while(cnt < r){
+        int found =0;
+        for(int i=0;i<r;i++){
+            if(!finish[i]){
+                int can = 0;
+                for(int j=0;j<c;j++){
+                    if(need[i][j]>work[j]){
+                        can=1;
+                        break;
+                    }
+                }
+                if(!can){
+                    for(int k=0;k<c;k++)work[k] += alloc[i][k];
+                    found =1;
+                    cnt++;
+                    finish[i]=1;
+                    printf("P%d ",i);
+                }
+            }
+        }
+        if(!found){
+            printf("it is not safe ");
+            return 0;
+        }
+    }
+    printf("it is safe");
+    return 0;
 }
