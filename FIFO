@@ -1,0 +1,24 @@
+#include <stdio.h>
+int main() {
+    int pages[] = {1, 2, 3, 4, 1, 2, 5, 1};
+    int frames[3] = {-1, -1, -1};  
+    int i, j, k = 0, faults = 0, hit;
+    for (i = 0; i < 8; i++) {
+        hit = 0;
+        for (j = 0; j < 3; j++) {
+            if (frames[j] == pages[i]) {
+                hit = 1;
+                break;
+            } }
+        if (!hit) { 
+            frames[k] = pages[i];     
+            k = (k + 1) % 3;           
+            faults++;
+        }
+        printf("Page %d -> [%d %d %d] %s\n", pages[i], frames[0], frames[1], frames[2], hit ? "Hit" : "Fault");
+    }
+    printf("Total Page Faults: %d\n", faults);
+    int n = sizeof(pages) / sizeof(pages[0]);
+    printf("Page Fault Rate: %.2f\n",(double) faults / n);
+    return 0;
+}
