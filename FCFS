@@ -1,0 +1,30 @@
+#include <stdio.h>
+int main() {
+    int at[10], bt[10], ct[10], n, i, j, temp;
+    float atat = 0, awt = 0;
+    printf("Enter number of processes (max 10): ");
+    scanf("%d", &n);
+    printf("Enter arrival times: ");
+    for (i = 0; i < n; i++) scanf("%d", &at[i]);
+    printf("Enter burst times: ");
+    for (i = 0; i < n; i++) scanf("%d", &bt[i]);
+    for (i = 0; i < n-1; i++){
+        for (j = 0; j < n-1-i; j++)
+            if (at[j] > at[j+1]) {
+                temp = at[j]; at[j] = at[j+1]; at[j+1] = temp;
+                temp = bt[j]; bt[j] = bt[j+1]; bt[j+1] = temp;
+            }}
+    ct[0] = at[0] + bt[0];
+    for (i = 1; i < n; i++)
+        ct[i] = (ct[i-1] < at[i] ? at[i] : ct[i-1]) + bt[i];
+    printf("P\tAT\tBT\tCT\tTAT\tWT\n");
+    for (i = 0; i < n; i++) {
+        int tat = ct[i] - at[i];
+        int wt = tat - bt[i];
+        atat += tat;
+        awt += wt;
+        printf("%d\t%d\t%d\t%d\t%d\t%d\n", i+1, at[i], bt[i], ct[i], tat, wt);
+    }
+    printf("Average Turnaround Time: %.2f\nAverage Waiting Time: %.2f\n", atat/n, awt/n);
+    return 0;
+}
