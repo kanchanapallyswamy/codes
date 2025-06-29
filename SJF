@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <limits.h>
+int main() {
+    int n, at[10], bt[10], rt[10], ct[10], tat[10], wt[10], done[10]={0}, time=0, comp=0;
+    float total_tat=0, total_wt=0;
+    scanf("%d", &n);
+    for (int i=0; i<n; i++) scanf("%d%d", &at[i], &bt[i]), rt[i]=bt[i];
+    printf("Gantt:\n");
+    while (comp<n) {
+        int idx=-1, min=INT_MAX;
+        for (int i=0; i<n; i++) if (done[i]==0 && at[i]<=time && rt[i]<min) min=rt[i], idx=i;
+        if (idx==-1) { printf("| IDLE "); time++; continue; }
+        printf("| P%d ", idx+1); rt[idx]--;
+        if (rt[idx]==0) done[idx]=1, comp++, ct[idx]=++time, tat[idx]=ct[idx]-at[idx], wt[idx]=tat[idx]-bt[idx], total_tat+=tat[idx], total_wt+=wt[idx];
+        else time++;
+    }
+    printf("|\n\nPID AT BT CT TAT WT\n");
+    for (int i=0; i<n; i++) printf("%d %d %d %d %d %d\n", i+1, at[i], bt[i], ct[i], tat[i], wt[i]);
+    printf("Avg TAT=%.2f\nAvg WT=%.2f\n", total_tat/n, total_wt/n);
+}
