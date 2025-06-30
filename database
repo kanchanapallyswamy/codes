@@ -1,0 +1,15 @@
+
+import sqlite3
+conn = sqlite3.connect('Nisathwika.db')
+conn.execute("""
+create table if not exists students(
+  st_id integer primary key,
+  st_name varchar(20),
+  st_age integer
+)
+""")
+conn.execute("insert into students values (10,'kvr',20)")
+conn.commit()
+for row in conn.execute("select * from students"):
+  print(row)
+conn.close()
