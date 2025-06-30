@@ -1,0 +1,10 @@
+from sklearn.cluster import KMeans
+my_data = [[2, 11], [1, 13], [6, 6], [3, 8], [10, 12], [2, 5],
+           [3, 12], [7, 10], [1, 3]]
+km = KMeans(n_clusters=2,random_state=0).fit(my_data)
+print('k-means assignments are ')
+print(km.labels_)
+print('centriods ')
+print(km.cluster_centers_)
+print('SSE inertia  ')
+print(km.inertia_)
