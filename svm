@@ -1,0 +1,11 @@
+from sklearn import svm
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import pandas as pd
+x = [[0,0],[1,1],[2,0],[3,1],[4,0],[5,1]]
+y = [0,0,1,1,2,2]
+x_tr , x_te, y_tr, y_te = train_test_split(x,y,test_size=0.3,random_state=42)
+clf = svm.SVC()
+clf.fit(x_tr,y_tr)
+print('accuracy score ',accuracy_score(y_te,clf.predict(x_te)))
+print('predicted class : ',clf.predict([[0.5,1.5]]))
